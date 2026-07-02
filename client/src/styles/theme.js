@@ -1,9 +1,24 @@
-export const theme = {
-    colors: {
-            background: "#020617",
-    primary: "#06B6D4",
-    secondary: "#8B5CF6",
+const theme = {
+  colors: {
+    background: "#D9D0C1",
+    backgroundSecondary: "#A38B6D",
+
+    navbar: "#3A3945",
+
+    card: "#171E30",
+
     white: "#FFFFFF",
-    gray: "#94A3B8",
+
+    textSecondary: "#8E97A8",
+
+    gold: "#E7C78A",
+
+    bronze: "#7A5A34",
+
+    cyan: "#00D4FF",
+
+    purple: "#A855F7",
   },
 };
+
+export default theme;
