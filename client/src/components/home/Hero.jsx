@@ -1,34 +1,48 @@
+import DashboardPreview from "./DashboardPreview";
+
 function Hero() {
   return (
-    <section className="min-h-screen pt-24 bg-slate-950 text-white flex flex-col justify-center items-center px-6">
+    <section className="min-h-screen bg-[#09090B] text-white flex items-center">
+      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
 
-      <p className="text-cyan-400 text-lg font-semibold mb-2">
-         Welcome to the Future
-      </p>
+        {/* Left Side */}
+        <div>
 
-      <h1 className="text-6xl font-bold mb-6 text-center">
-        Aether AI
-      </h1>
+          <span className="inline-block px-4 py-2 rounded-full border border-cyan-400 text-cyan-300 text-sm mb-6">
+            Powered by Artificial Intelligence
+          </span>
 
-      <h2 className="text-3xl text-gray-300 mb-6 text-center">
-        Your Personal AI Workspace
-      </h2>
+          <h1 className="text-5xl md:text-7xl font-bold leading-tight">
+            One Workspace.
+            <br />
+            <span className="bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+              Infinite Intelligence.
+            </span>
+          </h1>
 
-      <p className="max-w-3xl text-center text-gray-400 leading-8 text-lg">
-        Chat smarter, write faster, generate code, analyze PDFs,
-        create content, and boost your productivity with one intelligent AI platform.
-      </p>
+          <p className="mt-6 max-w-2xl text-gray-400 text-lg leading-8">
+            Build, code, write and automate your workflow with Aether AI Workspace.
+            Everything you need, powered by AI.
+          </p>
 
-      <div className="mt-10 flex gap-4">
-        <button className="bg-cyan-500 hover:bg-cyan-600 px-8 py-3 rounded-xl font-semibold">
-          Get Started
-        </button>
+          <div className="mt-10 flex gap-4 flex-wrap">
+            <button className="px-7 py-3 rounded-xl bg-gradient-to-r from-cyan-400 to-purple-500 font-semibold text-black">
+              Get Started
+            </button>
 
-        <button className="border border-cyan-500 text-cyan-400 px-8 py-3 rounded-xl hover:bg-cyan-500 hover:text-white">
-          Learn More
-        </button>
+            <button className="px-7 py-3 rounded-xl border border-white/20">
+              Watch Demo
+            </button>
+          </div>
+
+        </div>
+
+        {/* Right Side */}
+        <div className="hidden lg:flex justify-center">
+          <DashboardPreview />
+        </div>
+
       </div>
-
     </section>
   );
 }
