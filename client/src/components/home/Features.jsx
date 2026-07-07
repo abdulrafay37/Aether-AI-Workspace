@@ -43,7 +43,7 @@ function Features() {
   ];
 
   return (
-    <section className="bg-[#02040c] py-28 text-white">
+    <section id="features" className="bg-[#02040c] py-28 text-white">
       <div className="max-w-7xl mx-auto px-6">
 
         <motion.div

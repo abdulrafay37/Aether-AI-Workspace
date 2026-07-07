@@ -36,7 +36,7 @@ function Hero({ onGetStarted }) {
                 onClick={onGetStarted}
                 className="hero-primary-btn rounded-2xl bg-gradient-to-r from-[#F7E7CE] to-[#E7C78A] px-8 py-4 text-sm font-semibold text-[#0b1220] shadow-[0_20px_50px_rgba(231,199,138,0.22)] transition hover:scale-[1.02]"
               >
-                Get Started
+                Get Started ↓ /login
               </button>
               <button className="hero-secondary-btn rounded-2xl border border-[#E7C78A]/50 bg-white/5 px-8 py-4 text-sm font-semibold text-[#F7E7CE] transition hover:border-[#E7E7CE] hover:bg-white/10">
                 Watch Demo

@@ -1,11 +1,9 @@
-function Navbar() {
-  const scrollToSection = (id) => {
-    const section = document.getElementById(id);
+import { Link } from "react-router-dom";
 
-    if (section) {
-      section.scrollIntoView({
-        behavior: "smooth",
-      });
+function Navbar({ onNavigate }) {
+  const handleNavigate = (id) => {
+    if (onNavigate) {
+      onNavigate(id);
     }
   };
 
@@ -23,7 +21,7 @@ function Navbar() {
         
         {/* Logo */}
         <div
-          onClick={() => scrollToSection("home")}
+          onClick={() => handleNavigate("home")}
           className="flex items-center gap-3 cursor-pointer"
         >
           <div className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-[#ffd55f] to-[#f5c26c] text-[#0b1220] font-black shadow-[0_20px_60px_rgba(255,209,105,0.15)]">
@@ -40,7 +38,7 @@ function Navbar() {
           {navLinks.map((item) => (
             <li
               key={item.name}
-              onClick={() => scrollToSection(item.id)}
+              onClick={() => handleNavigate(item.id)}
               className="cursor-pointer transition hover:text-[#F7E7CE] hover:underline hover:underline-offset-8"
             >
               {item.name}
@@ -50,12 +48,15 @@ function Navbar() {
 
         {/* Buttons */}
         <div className="flex items-center gap-4">
-          <button className="rounded-full border border-white/15 px-5 py-2 text-sm font-semibold text-white transition hover:border-[#E7C78A] hover:bg-white/10">
+          <Link
+            to="/login"
+            className="rounded-full border border-white/15 px-5 py-2 text-sm font-semibold text-white transition hover:border-[#E7C78A] hover:bg-white/10"
+          >
             Login
-          </button>
+          </Link>
 
           <button
-            onClick={() => scrollToSection("home")}
+            onClick={() => handleNavigate("workspace")}
             className="rounded-full bg-gradient-to-r from-[#F7E7CE] to-[#E7C78A] px-6 py-2 text-sm font-semibold text-[#0b1220] shadow-[0_20px_50px_rgba(231,199,138,0.25)] transition hover:scale-[1.02]"
           >
             Get Started →
