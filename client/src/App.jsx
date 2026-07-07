@@ -4,6 +4,9 @@ import Hero from "./components/home/Hero";
 import Stats from "./components/home/Stats";
 import AIWorkspaceDemo from "./components/home/AIWorkspaceDemo";
 import Features from "./components/home/Features";
+import Pricing from "./components/home/Pricing";
+import Roadmap from "./components/home/Roadmap";
+import About from "./components/home/About";
 import Workspace from "./pages/Workspace";
 import HeroBackground from "./components/home/HeroBackground";
 
@@ -23,6 +26,9 @@ function App() {
             <Stats />
             <AIWorkspaceDemo />
             <Features />
+            <Pricing />
+            <Roadmap />
+            <About />
           </>
         )}
       </div>

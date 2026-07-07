@@ -4,7 +4,7 @@ import DashboardPreview from "./DashboardPreview";
 
 function Hero({ onGetStarted }) {
   return (
-    <section className="relative min-h-screen overflow-hidden text-white">
+    <section id="home" className="relative min-h-screen overflow-hidden text-white">
       <div className="relative z-20 pt-28 pb-16">
         <div className="max-w-7xl mx-auto w-full px-6 lg:px-8 grid lg:grid-cols-2 gap-20 items-center">
 
