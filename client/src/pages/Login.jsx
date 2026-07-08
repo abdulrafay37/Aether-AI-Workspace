@@ -13,23 +13,33 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const provider = new GoogleAuthProvider();
 
   const googleLogin = async () => {
+    setError("");
+    setIsLoading(true);
     try {
       await signInWithPopup(auth, provider);
       navigate("/workspace");
-    } catch (error) {
-      alert(error.message);
+    } catch (err) {
+      setError(err?.message || "Google sign-in failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const emailLogin = async () => {
+    setError("");
+    setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
       navigate("/workspace");
-    } catch (error) {
-      alert(error.message);
+    } catch (err) {
+      setError(err?.message || "Sign-in failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -55,12 +65,19 @@ function Login() {
             </p>
 
             <div className="mt-10 space-y-4">
+              {error && (
+                <div className="rounded-md bg-red-900/50 border border-red-700 p-3 text-sm text-red-100">
+                  {error}
+                </div>
+              )}
+
               <button
                 onClick={googleLogin}
-                className="flex w-full items-center justify-center gap-3 rounded-full border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-white transition hover:border-[#E7C78A]/40 hover:bg-white/10"
+                disabled={isLoading}
+                className="flex w-full items-center justify-center gap-3 rounded-full border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-white transition hover:border-[#E7C78A]/40 hover:bg-white/10 disabled:opacity-60"
               >
                 <Sparkles className="h-5 w-5 text-[#E7C78A]" />
-                Sign in with Google
+                {isLoading ? "Signing in..." : "Sign in with Google"}
               </button>
 
               <div className="rounded-[28px] border border-white/10 bg-[#0b1220]/95 p-5 shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
@@ -106,9 +123,10 @@ function Login() {
 
                   <button
                     onClick={emailLogin}
-                    className="flex w-full items-center justify-between rounded-full bg-gradient-to-r from-[#F7E7CE] to-[#E7C78A] px-6 py-4 text-sm font-semibold text-[#0b1220] shadow-[0_20px_60px_rgba(231,199,138,0.25)] transition hover:scale-[1.01]"
+                    disabled={isLoading}
+                    className="flex w-full items-center justify-between rounded-full bg-gradient-to-r from-[#F7E7CE] to-[#E7C78A] px-6 py-4 text-sm font-semibold text-[#0b1220] shadow-[0_20px_60px_rgba(231,199,138,0.25)] transition hover:scale-[1.01] disabled:opacity-60"
                   >
-                    <span>Sign In</span>
+                    <span>{isLoading ? "Signing in..." : "Sign In"}</span>
                     <ArrowRight className="h-5 w-5" />
                   </button>
 
