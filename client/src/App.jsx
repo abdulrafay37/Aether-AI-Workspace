@@ -1,3 +1,4 @@
+import ProtectedRoute from "./components/ProtectedRoute";
 import { useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
@@ -64,7 +65,11 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/workspace" element={<Workspace />} />
+      <Route path="/workspace" element={<ProtectedRoute>
+      <Workspace />
+    </ProtectedRoute>
+  }
+/>
       <Route path="/" element={homePage} />
       <Route path="*" element={homePage} />
     </Routes>

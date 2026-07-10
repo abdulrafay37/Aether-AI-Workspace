@@ -3,19 +3,39 @@ import { sendMessage } from "../services/gemini";
 import Sidebar from "../components/workspace/Sidebar";
 import ChatWindow from "../components/workspace/ChatWindow";
 import MessageInput from "../components/workspace/MessageInput";
+import { db } from "../firebase";
+import { useAuth } from "../context/AuthContext";
+
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 
 function Workspace() {
+  const { user } = useAuth();
+
+  const [currentChatId, setCurrentChatId] = useState(null);
+
   const [messages, setMessages] = useState([
     {
       id: 1,
       sender: "assistant",
-      text: "Hello Rafay 👋 Welcome to Aether AI Workspace.",
+      text: "Hello! Welcome to Aether AI Workspace.",
     },
   ]);
+
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isTypingSuggestion, setIsTypingSuggestion] = useState(false);
+
   const suggestionTimeouts = useRef([]);
+
+  useEffect(() => {
+    console.log("Logged In User:", user);
+  }, [user]);
 
   useEffect(() => {
     return () => {
@@ -25,7 +45,8 @@ function Workspace() {
   }, []);
 
   const handleSend = async (text = inputText) => {
-    const prompt = text.trim();
+    const prompt = String(text).trim();
+
     if (!prompt || isLoading || isTypingSuggestion) return;
 
     setInputText(prompt);
@@ -37,6 +58,7 @@ function Workspace() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+
     setIsLoading(true);
 
     const reply = await sendMessage(prompt);
@@ -47,9 +69,45 @@ function Workspace() {
       text: reply,
     };
 
+    if (user) {
+      try {
+        let chatId = currentChatId;
+
+        if (!chatId) {
+          const chatRef = doc(collection(db, "users", user.uid, "chats"));
+
+          await setDoc(chatRef, {
+            title: prompt.substring(0, 40),
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+          });
+
+          chatId = chatRef.id;
+          setCurrentChatId(chatId);
+
+          console.log("✅ New Chat:", chatId);
+        }
+
+        await addDoc(
+          collection(db, "users", user.uid, "chats", chatId, "messages"),
+          {
+            prompt,
+            reply,
+            createdAt: serverTimestamp(),
+          }
+        );
+
+        console.log("✅ Message Saved");
+      } catch (error) {
+        console.error("Firestore Error:", error);
+      }
+    }
+
     setMessages((prev) => [...prev, assistantMessage]);
-    setIsLoading(false);
+
     setInputText("");
+
+    setIsLoading(false);
   };
 
   const clearSuggestionTyping = () => {
@@ -60,13 +118,17 @@ function Workspace() {
 
   const handleSuggestion = (suggestion) => {
     if (isLoading) return;
+
     clearSuggestionTyping();
+
     setInputText("");
+
     setIsTypingSuggestion(true);
 
     suggestion.split("").forEach((char, index) => {
       const timeoutId = window.setTimeout(() => {
         setInputText((prev) => prev + char);
+
         if (index === suggestion.length - 1) {
           setIsTypingSuggestion(false);
         }
@@ -84,11 +146,16 @@ function Workspace() {
         </div>
 
         <div className="flex flex-1 flex-col gap-6">
-          <ChatWindow messages={messages} isLoading={isLoading} onSuggestion={handleSuggestion} />
+          <ChatWindow
+            messages={messages}
+            isLoading={isLoading}
+            onSuggestion={handleSuggestion}
+          />
+
           <MessageInput
             value={inputText}
             onChange={setInputText}
-            onSend={() => handleSend()}
+            onSend={handleSend}
             isLoading={isLoading}
             isTypingSuggestion={isTypingSuggestion}
           />

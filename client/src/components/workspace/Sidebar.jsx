@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
-
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 function Sidebar() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const chats = [
     "New Chat",
     "React Help",
@@ -42,21 +45,41 @@ function Sidebar() {
           ))}
         </div>
       </div>
-
       <div className="mt-auto space-y-4 rounded-[1.75rem] border border-[#E5D4B2] bg-[#fffdf7] p-4 shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-2xl bg-[#6B4423] text-xl font-bold text-[#F7E7CE]">
-            R
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-[#6B4423]">Rafay</p>
-            <p className="text-xs text-[#6B4423]/70">Product designer</p>
-          </div>
-        </div>
-        <button className="w-full rounded-2xl border border-[#6B4423] px-4 py-3 text-sm font-semibold text-[#6B4423] transition hover:bg-[#6B4423] hover:text-[#F7E7CE]">
-          Settings
-        </button>
-      </div>
+  <div className="flex items-center gap-3">
+    <div className="grid h-11 w-11 place-items-center overflow-hidden rounded-2xl bg-[#6B4423] text-xl font-bold text-[#F7E7CE]">
+      {user?.photoURL ? (
+        <img
+          src={user.photoURL}
+          alt="Profile"
+          className="h-full w-full object-cover"
+        />
+      ) : (
+        user?.displayName?.charAt(0).toUpperCase() || "U"
+      )}
+
+    </div>
+    <div>
+      <p className="text-sm font-semibold text-[#6B4423]">
+        {user?.displayName || "User"}
+      </p>
+
+      <p className="text-xs text-[#6B4423]/70">
+        {user?.email}
+      </p>
+    </div>
+  </div>
+  <button
+  onClick={async () => {
+    await logout();
+    navigate("/");
+  }}
+  className="w-full rounded-2xl border border-[#6B4423] px-4 py-3 text-sm font-semibold text-[#6B4423] transition hover:bg-[#6B4423] hover:text-[#F7E7CE]"
+>
+  Logout
+</button>
+
+</div>
     </motion.aside>
   );
 }
